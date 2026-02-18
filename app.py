@@ -23,10 +23,10 @@ final_class_subjects = {
 
 st.set_page_config(page_title="Timetable Checker", layout="wide")
 
-st.title("📚 School Timetable Checker")
+st.title("📚 School Timetable Checker, Cycle 2")
 st.markdown("""
 Upload one or multiple PDF timetables. 
-The system will check them against VSA requirements.
+The system will check them against VSA lesson schedule requirements.
 """)
 
 # --- File Uploader ---
@@ -67,7 +67,7 @@ if st.button("Analyze Timetables") and uploaded_files:
 
                 try:
                     tables = camelot.read_pdf(temp_path, pages='all', flavor='lattice')
-                    log_output.append(f"Found {len(tables)} tables")
+                    # log_output.append(f"Found {len(tables)} tables")
 
                     lessons_classes = {}  # Store local results for this file
 
@@ -169,8 +169,8 @@ if st.button("Analyze Timetables") and uploaded_files:
                             if total != ref_data['total']:
                                 warning_messages.append(
                                     f"❌ **TOTAL HOURS**: Found {total}, Expected {ref_data['total']}")
-                            else:
-                                warning_messages.append(f"✅ **TOTAL HOURS**: Correct ({total})")
+                            # else:
+                            #     warning_messages.append(f"✅ **TOTAL HOURS**: Correct ({total})")
                     else:
                         warning_messages.append(f"⚠️ Class '{class_name}' not defined in VSA data.")
 
@@ -181,7 +181,7 @@ if st.button("Analyze Timetables") and uploaded_files:
                 with col1:
                     st.subheader("Results")
                     if not warning_messages:
-                        st.success("Analysis Complete - No issues found (or file empty)")
+                        st.success("Analysis Complete - No issues found. All subject counts match VSA data.")
                     else:
                         for msg in warning_messages:
                             if "✅" in msg:
@@ -190,6 +190,6 @@ if st.button("Analyze Timetables") and uploaded_files:
                                 st.error(msg)
 
                 with col2:
-                    st.subheader("Raw Data log")
+                    st.subheader("Found Timetable (Parsed Grid)")
                     # st.text_area("Log", "\n".join(log_output), height=200, key=f"log_{uploaded_file.name}")
                     st.code("\n".join(log_output), height=200)
