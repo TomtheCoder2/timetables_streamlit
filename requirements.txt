@@ -1,0 +1,5 @@
+streamlit
+camelot-py
+opencv-python-headless
+pandas
+ghostscript
